@@ -1,9 +1,9 @@
 // Just nav the grades page hit f-12 and paste this into the dev console
-function removeVideoAssignmentsFromPage() {
-  [...document.querySelectorAll("tr > th > .context")]
-    .filter(el => el.textContent === "Videos")
-    .map(el => el.parentNode.parentNode)
-    .forEach(row => row.remove())
+function removeZeroPointRows() {
+  const allPossibleGradeSpans = [...document.querySelectorAll(".student_assignment .assignment_score .tooltip .grade+span")]
+  const zeroPointSpans = allPossibleGradeSpans.filter(el => parseInt(el.textContent.replace("/", "")) === 0)
+  const zeroPointRows = zeroPointSpans.map(el => el.parentElement.parentElement.parentElement.parentElement)
+  zeroPointRows.forEach(row => row.remove())
 }
 function getGradedRows() {
   return [...document.getElementsByClassName("student_assignment assignment_graded")]
@@ -70,5 +70,5 @@ ${getGroups().map(({ group }) => {
     </tbody>
   </table>`
 }
-removeVideoAssignmentsFromPage()
+removeZeroPointRows()
 replaceDisabledMsg()
