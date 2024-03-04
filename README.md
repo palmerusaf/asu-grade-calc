@@ -23,13 +23,27 @@ function removeZeroPointRows() {
   zeroPointRows.forEach(row => row.remove())
 }
 function getGradedRows() {
-  return [...document.getElementsByClassName("student_assignment assignment_graded")]
+  return getEditableRows().filter(rmRowsWithoutActualScore);
+
 }
-function elToAssignmentObject(el) {
+function getEditableRows() {
+  return [...document.getElementsByClassName("student_assignment editable")]
+}
+function rmRowsWithoutActualScore(row) {
+  return !Number.isNaN(getScore(row))
+}
+function getScore(row) {
+  const grade = row.querySelector(".grade")
+  if (grade.classList.contains("changed")) {
+    return parseFloat(grade.textContent.trim())
+  }
+  return parseFloat(grade.lastChild.textContent.trim())
+}
+function rowToAssignmentObject(row) {
   return {
-    groupType: el.querySelector("th > .context").textContent,
-    actualScore: parseFloat(el.querySelector("td.assignment_score div.score_holder span.tooltip span.grade").innerText.replace(/^.*\n/, "")),
-    possibleScore: parseFloat(el.querySelector(" td.assignment_score div.score_holder span.tooltip >span.grade+span").innerText.replace(/^\//, "")),
+    groupType: row.querySelector("th > .context").textContent,
+    actualScore: getScore(row),
+    possibleScore: parseFloat(row.querySelector(" td.assignment_score div.score_holder span.tooltip >span.grade+span").innerText.replace(/^\//, "")),
   }
 }
 function getGroups() {
@@ -38,7 +52,6 @@ function getGroups() {
 function getScale(groupType) {
   return getGroups().find(el => el.group === groupType).weight;
 }
-console.log({ groups: getGroups(), assignments: getGradedRows().map(elToAssignmentObject) })
 function getAverage(assignments) {
   const groups = getGroups()
   const averages = groups.map(el => weightedAverageForGroup(assignments, el.group))
@@ -51,17 +64,17 @@ function weightedAverageForGroup(assignments, group) {
   const filteredGroup = assignments.filter(el => el.groupType === group)
   const total = filteredGroup.reduce((result, curr) => result += curr.actualScore / curr.possibleScore, 0)
   // if category has no entries set the average to one for max points
-  const average = total / filteredGroup.length || 1;
+  const average = filteredGroup.length === 0 ? 1 : total / filteredGroup.length;
   const weightedAverage = average * getScale(group)
   return weightedAverage
 }
 function replaceDisabledMsg() {
   const msgBox = document.querySelector("#student-grades-final");
   msgBox.innerHTML = `<s>Calculation</s>"Estimation"🤔 of totals has been enabled\n`
-  const allAssignments = getGradedRows().map(elToAssignmentObject)
+  const allAssignments = getGradedRows().map(rowToAssignmentObject)
   const nonDroppedAssignments = getGradedRows()
     .filter((el) => !el.classList.contains("dropped"))
-    .map(elToAssignmentObject)
+    .map(rowToAssignmentObject)
   msgBox.innerHTML += `<table class="summary">
     <thead>
     <tr>
@@ -87,7 +100,13 @@ ${getGroups().map(({ group }) => {
     </tbody>
   </table>`
 }
+// recalc score when you click to edit score
+function addChangeListeners() {
+  getEditableRows().forEach((row) => row.onclick = replaceDisabledMsg)
+}
 removeZeroPointRows()
+addChangeListeners()
 replaceDisabledMsg()
+console.log("Success now view screen where the disabled msg was.")
 
 ```
