@@ -83,5 +83,11 @@ ${getGroups().map(({ group }) => {
     </tbody>
   </table>`
 }
+// recalc score when you click to edit score
+function addChangeListeners() {
+  getEditableRows().forEach((row) => row.onclick = replaceDisabledMsg)
+}
 removeZeroPointRows()
+addChangeListeners()
 replaceDisabledMsg()
+console.log("Success now view screen where the disabled msg was.")
