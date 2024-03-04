@@ -15,6 +15,6 @@ Some professors disable grade calculations in their courses because canvas doesn
 * Note: Be careful just pasting random scripts into dev tools. Someone could steal your bank info that way. I'm not going to, but someone could.
 
 ## Code Block to Paste
-```javascript:./getGrades.js
+```javascript:getGrades.js
 
 ```
