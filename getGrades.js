@@ -6,13 +6,27 @@ function removeZeroPointRows() {
   zeroPointRows.forEach(row => row.remove())
 }
 function getGradedRows() {
-  return [...document.getElementsByClassName("student_assignment assignment_graded")]
+  return getEditableRows().filter(rmRowsWithoutActualScore);
+
 }
-function elToAssignmentObject(el) {
+function getEditableRows() {
+  return [...document.getElementsByClassName("student_assignment editable")]
+}
+function rmRowsWithoutActualScore(row) {
+  return !Number.isNaN(getScore(row))
+}
+function getScore(row) {
+  const grade = row.querySelector(".grade")
+  if (grade.classList.contains("changed")) {
+    return parseFloat(grade.textContent.trim())
+  }
+  return parseFloat(grade.lastChild.textContent.trim())
+}
+function rowToAssignmentObject(row) {
   return {
-    groupType: el.querySelector("th > .context").textContent,
-    actualScore: parseFloat(el.querySelector("td.assignment_score div.score_holder span.tooltip span.grade").innerText.replace(/^.*\n/, "")),
-    possibleScore: parseFloat(el.querySelector(" td.assignment_score div.score_holder span.tooltip >span.grade+span").innerText.replace(/^\//, "")),
+    groupType: row.querySelector("th > .context").textContent,
+    actualScore: getScore(row),
+    possibleScore: parseFloat(row.querySelector(" td.assignment_score div.score_holder span.tooltip >span.grade+span").innerText.replace(/^\//, "")),
   }
 }
 function getGroups() {
@@ -21,7 +35,7 @@ function getGroups() {
 function getScale(groupType) {
   return getGroups().find(el => el.group === groupType).weight;
 }
-console.log({ groups: getGroups(), assignments: getGradedRows().map(elToAssignmentObject) })
+console.log({ groups: getGroups(), assignments: getGradedRows().map(rowToAssignmentObject) })
 function getAverage(assignments) {
   const groups = getGroups()
   const averages = groups.map(el => weightedAverageForGroup(assignments, el.group))
@@ -41,10 +55,10 @@ function weightedAverageForGroup(assignments, group) {
 function replaceDisabledMsg() {
   const msgBox = document.querySelector("#student-grades-final");
   msgBox.innerHTML = `<s>Calculation</s>"Estimation"🤔 of totals has been enabled\n`
-  const allAssignments = getGradedRows().map(elToAssignmentObject)
+  const allAssignments = getGradedRows().map(rowToAssignmentObject)
   const nonDroppedAssignments = getGradedRows()
     .filter((el) => !el.classList.contains("dropped"))
-    .map(elToAssignmentObject)
+    .map(rowToAssignmentObject)
   msgBox.innerHTML += `<table class="summary">
     <thead>
     <tr>
