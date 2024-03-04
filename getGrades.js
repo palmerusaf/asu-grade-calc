@@ -35,7 +35,6 @@ function getGroups() {
 function getScale(groupType) {
   return getGroups().find(el => el.group === groupType).weight;
 }
-console.log({ groups: getGroups(), assignments: getGradedRows().map(rowToAssignmentObject) })
 function getAverage(assignments) {
   const groups = getGroups()
   const averages = groups.map(el => weightedAverageForGroup(assignments, el.group))
@@ -48,7 +47,7 @@ function weightedAverageForGroup(assignments, group) {
   const filteredGroup = assignments.filter(el => el.groupType === group)
   const total = filteredGroup.reduce((result, curr) => result += curr.actualScore / curr.possibleScore, 0)
   // if category has no entries set the average to one for max points
-  const average = total / filteredGroup.length || 1;
+  const average = filteredGroup.length === 0 ? 1 : total / filteredGroup.length;
   const weightedAverage = average * getScale(group)
   return weightedAverage
 }
