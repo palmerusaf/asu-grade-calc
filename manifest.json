@@ -6,7 +6,6 @@
   "host_permissions": ["https://canvas.asu.edu/courses/*/grades"],
   "browser_specific_settings": {
     "gecko": {
-      "strict_min_version": "42a1",
       "id": "brandenpalmer08@gmail.com"
     }
   },
