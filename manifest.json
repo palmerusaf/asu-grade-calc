@@ -3,18 +3,18 @@
   "manifest_version": 3,
   "version": "1.0.0",
   "description": "This script tries to estimate what your current grade is and then replaces the calculation disable message.",
-  "host_permissions": [
-    "https://canvas.asu.edu/courses/*/grades"
-  ],
+  "host_permissions": ["https://canvas.asu.edu/courses/*/grades"],
+  "browser_specific_settings": {
+    "gecko": {
+      "strict_min_version": "42a1",
+      "id": "brandenpalmer08@gmail.com"
+    }
+  },
   "content_scripts": [
     {
-      "matches": [
-        "https://canvas.asu.edu/courses/*/grades"
-      ],
+      "matches": ["https://canvas.asu.edu/courses/*/grades"],
       "run_at": "document_idle",
-      "js": [
-        "./getGrades.js"
-      ]
+      "js": ["./getGrades.js"]
     }
   ]
 }
