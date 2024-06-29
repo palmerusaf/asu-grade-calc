@@ -2,6 +2,7 @@
   "name": "asu-grade-calc",
   "manifest_version": 2,
   "version": "1.0.0",
+  "description": "This script tries to estimate what your current grade is and then replaces the calculation disable message.",
   "content_scripts": [
     {
       "matches": [
