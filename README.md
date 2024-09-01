@@ -1,19 +1,34 @@
 # ASU Grades Estimator
+
 ## Purpose
+
 Some professors disable grade calculations in their courses because canvas doesn't always calculate grades correctly. This script tries to estimate what your current grade is and then replaces the calculation disable message.
+
 ## Example
-| Before   | After    |
-|--------------- | --------------- |
-| ![Before](./before.png)    | ![After](./after.png)    |
+
+| Before                  | After                 |
+| ----------------------- | --------------------- |
+| ![Before](./before.png) | ![After](./after.png) |
+
 ## How to use it
+
+## Install
+
+- If you use Firefox good news, you can just add the extension directly via [this linke](https://addons.mozilla.org/firefox/downloads/file/4311410/5224a0b9645549d688d8-1.0.0.xpi).
+- If you use Chrome you'll have to download the .js and .json files to a folder and install it as an unpacked extension. [Here's a tutorial on how to do that.](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked)
+
+## Through Browser Console
+
 1. Navigate to the grades screen in canvas. The link should look something like `https://canvas.asu.edu/courses/<course-id>/grades`.
 2. Press F-12 to bring up the dev tools.
 3. Navigate to the console tab.
 4. Paste the code block below into the console.
 5. Type "allow pasting" or whatever the console tells you to do.
-* Note: Be careful just pasting random scripts into dev tools. Someone could steal your bank info that way. I'm not going to, but someone could.
+
+- Note: Be careful just pasting random scripts into dev tools. Someone could steal your bank info that way. I'm not going to, but someone could.
 
 ## Code Block to Paste
+
 ```javascript:getGrades.js
 // Just nav the grades page hit f-12 and paste this into the dev console
 function removeZeroPointRows() {
