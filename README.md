@@ -14,7 +14,7 @@ Some professors disable grade calculations in their courses because canvas doesn
 
 ## Install
 
-- If you use Firefox good news, you can just add the extension directly via [this linke](https://addons.mozilla.org/firefox/downloads/file/4311410/5224a0b9645549d688d8-1.0.0.xpi).
+- If you use Firefox good news, you can just add the extension directly via [this link](https://addons.mozilla.org/firefox/downloads/file/4311410/5224a0b9645549d688d8-1.0.0.xpi).
 - If you use Chrome you'll have to download the .js and .json files to a folder and install it as an unpacked extension. [Here's a tutorial on how to do that.](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked)
 
 ## Through Browser Console
