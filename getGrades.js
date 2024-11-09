@@ -140,3 +140,4 @@ removeZeroPointRows();
 addChangeListeners();
 replaceDisabledMsg();
 console.log("Success now view screen where the disabled msg was.");
+console.log("uncomment weights in getGroups method to try alt weights");
