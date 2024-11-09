@@ -44,15 +44,19 @@ function rowToAssignmentObject(row) {
 }
 function getGroups() {
   return [
-    ...document.querySelectorAll(
-      "div#assignments-not-weighted div table.summary tbody tr",
-    ),
-  ]
-    .map((el) => ({
-      group: el.querySelector("th").textContent,
-      weight: parseInt(el.querySelector("td").textContent.replace("%", "")),
-    }))
-    .filter((el) => el.group != "Total");
+    // { group: "Exams",    weight: 15 },
+    // { group: "Homework", weight: 15 },
+    // { group: "Lectures", weight: 15 },
+    // { group: "Quizzes",  weight: 10 },
+    // { group: "Project",  weight: 5 },
+    // { group: "Final",    weight: 25 },
+    { group: "Exams", weight: 18 },
+    { group: "Homework", weight: 15 },
+    { group: "Lectures", weight: 15 },
+    { group: "Quizzes", weight: 10 },
+    { group: "Project", weight: 5 },
+    { group: "Final", weight: 19 },
+  ];
 }
 function getScale(groupType) {
   return getGroups().find((el) => el.group === groupType).weight;
@@ -60,7 +64,7 @@ function getScale(groupType) {
 function getAverage(assignments) {
   const groups = getGroups();
   const averages = groups.map((el) =>
-    weightedAverageForGroup(assignments, el.group),
+    weightedAverageForGroup(assignments, el.group)
   );
   return averages.reduce(toTotal, 0);
   function toTotal(total, current) {
@@ -80,7 +84,8 @@ function weightedAverageForGroup(assignments, group) {
 }
 function replaceDisabledMsg() {
   const msgBox = document.querySelector("#student-grades-final");
-  msgBox.innerHTML = `<s>Calculation</s>"Estimation"🤔 of totals has been enabled\n`;
+  msgBox.innerHTML =
+    `<s>Calculation</s>"Estimation"🤔 of totals has been enabled\n`;
   const allAssignments = getGradedRows().map(rowToAssignmentObject);
   const nonDroppedAssignments = getGradedRows()
     .filter((el) => !el.classList.contains("dropped"))
@@ -97,10 +102,14 @@ ${getGroups()
       .map(({ group }) => {
         return `<tr>
               <th scope="row">${group}</th>
-              <td>${Math.floor(weightedAverageForGroup(allAssignments, group))}%</td>
+              <td>${Math.floor(
+          weightedAverageForGroup(allAssignments, group),
+        )
+          }%</td>
             </tr>`;
       })
-      .join("")}
+      .join("")
+    }
         <tr>
           <th scope="row">All</th>
           <td>${Math.floor(getAverage(allAssignments))}%</td>
