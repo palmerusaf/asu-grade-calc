@@ -12,6 +12,12 @@ function removeZeroPointRows() {
     (el) => el.parentElement.parentElement.parentElement.parentElement,
   );
   zeroPointRows.forEach((row) => row.remove());
+  allPossibleGradeSpans.forEach((el) => {
+    const par = el.parentElement.parentElement.parentElement.parentElement;
+    if (par.textContent.includes("Practice")) {
+      par.remove();
+    }
+  });
 }
 function getGradedRows() {
   return getEditableRows().filter(rmRowsWithoutActualScore);
@@ -30,27 +36,32 @@ function getScore(row) {
   return parseFloat(grade.lastChild.textContent.trim());
 }
 function rowToAssignmentObject(row) {
+  let possibleScore = parseFloat(
+    row
+      .querySelector(
+        " td.assignment_score div.score_holder span.tooltip >span.grade+span",
+      )
+      .innerText.replace(/^\//, ""),
+  );
+  possibleScore = Number.isNaN(possibleScore) ? 100 : possibleScore;
+  const actualScore = Number.isNaN(getScore(row))
+    ? possibleScore
+    : getScore(row);
   return {
     groupType: row.querySelector("th > .context").textContent,
-    actualScore: getScore(row),
-    possibleScore: parseFloat(
-      row
-        .querySelector(
-          " td.assignment_score div.score_holder span.tooltip >span.grade+span",
-        )
-        .innerText.replace(/^\//, ""),
-    ),
+    actualScore,
+    possibleScore,
   };
 }
 function getGroups() {
   return [
-    // { group: "Exams",    weight: 15 },
+    // { group: "Exams",    weight: 15*2 },
     // { group: "Homework", weight: 15 },
     // { group: "Lectures", weight: 15 },
     // { group: "Quizzes",  weight: 10 },
     // { group: "Project",  weight: 5 },
     // { group: "Final",    weight: 25 },
-    { group: "Exams", weight: 18 },
+    { group: "Exams", weight: 18 * 2 },
     { group: "Homework", weight: 15 },
     { group: "Lectures", weight: 15 },
     { group: "Quizzes", weight: 10 },
