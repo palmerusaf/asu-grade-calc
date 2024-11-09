@@ -1,4 +1,4 @@
-# ASU Grades Estimator
+# ASU Grades Estimator (IEE 380)
 
 ## Purpose
 
@@ -19,6 +19,8 @@ Some professors disable grade calculations in their courses because canvas doesn
 3. Navigate to the console tab.
 4. Paste the code block below into the console.
 5. Type "allow pasting" or whatever the console tells you to do.
+
+You can uncomment/recomment the weights in the get groups section to try the alternate weightings.
 
 ### Code Block to Paste
 
