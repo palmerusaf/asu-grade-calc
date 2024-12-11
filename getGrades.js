@@ -64,18 +64,14 @@ function rowToAssignmentObject(row) {
 }
 function getGroups() {
   return [
-    // { group: "Exams",    weight: 15*2 },
-    // { group: "Homework", weight: 15 },
-    // { group: "Lectures", weight: 15 },
-    // { group: "Quizzes",  weight: 10 },
-    // { group: "Project",  weight: 5 },
-    // { group: "Final",    weight: 25 },
-    { group: "Exams", weight: 18 * 2 },
     { group: "Homework", weight: 15 },
     { group: "Lectures", weight: 15 },
     { group: "Quizzes", weight: 10 },
     { group: "Project", weight: 5 },
+    { group: "Exams", weight: 18 * 2 },
     { group: "Final", weight: 19 },
+    // { group: "Exams",    weight: 15*2 },
+    // { group: "Final",    weight: 25 },
   ];
 }
 function getScale(groupType) {
