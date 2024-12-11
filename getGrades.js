@@ -19,6 +19,15 @@ function removeZeroPointRows() {
     }
   });
 }
+function fixFinalExamCatGroup() {
+  getEditableRows().forEach((el) => {
+    const title = el.querySelector("th").querySelector("a").innerText;
+    const cat = el.querySelector("th").querySelector("div");
+    if (title.includes("Final")) {
+      cat.innerText = "Final";
+    }
+  });
+}
 function getGradedRows() {
   return getEditableRows().filter(rmRowsWithoutActualScore);
 }
@@ -75,7 +84,7 @@ function getScale(groupType) {
 function getAverage(assignments) {
   const groups = getGroups();
   const averages = groups.map((el) =>
-    weightedAverageForGroup(assignments, el.group)
+    weightedAverageForGroup(assignments, el.group),
   );
   return averages.reduce(toTotal, 0);
   function toTotal(total, current) {
@@ -95,8 +104,7 @@ function weightedAverageForGroup(assignments, group) {
 }
 function replaceDisabledMsg() {
   const msgBox = document.querySelector("#student-grades-final");
-  msgBox.innerHTML =
-    `<s>Calculation</s>"Estimation"🤔 of totals has been enabled\n`;
+  msgBox.innerHTML = `<s>Calculation</s>"Estimation"🤔 of totals has been enabled\n`;
   const allAssignments = getGradedRows().map(rowToAssignmentObject);
   const nonDroppedAssignments = getGradedRows()
     .filter((el) => !el.classList.contains("dropped"))
@@ -110,17 +118,15 @@ function replaceDisabledMsg() {
     </thead>
     <tbody>
 ${getGroups()
-      .map(({ group }) => {
-        return `<tr>
+  .map(({ group }) => {
+    return `<tr>
               <th scope="row">${group}</th>
               <td>${Math.floor(
-          weightedAverageForGroup(allAssignments, group),
-        )
-          }%</td>
+                weightedAverageForGroup(allAssignments, group),
+              )}%</td>
             </tr>`;
-      })
-      .join("")
-    }
+  })
+  .join("")}
         <tr>
           <th scope="row">All</th>
           <td>${Math.floor(getAverage(allAssignments))}%</td>
@@ -137,6 +143,7 @@ function addChangeListeners() {
   getEditableRows().forEach((row) => (row.onclick = replaceDisabledMsg));
 }
 removeZeroPointRows();
+fixFinalExamCatGroup();
 addChangeListeners();
 replaceDisabledMsg();
 console.log("Success now view screen where the disabled msg was.");
