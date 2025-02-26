@@ -1,4 +1,10 @@
-export function getAverage(assignments) {
+export function getAverage(
+  assignments: {
+    groupType: string;
+    actualScore: number;
+    possibleScore: number;
+  }[],
+) {
   const groups = getGroups();
   const averages = groups.map((el) =>
     weightedAverageForGroup(assignments, el.group),
