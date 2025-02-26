@@ -16,6 +16,10 @@ declare global {
   const defineUnlistedScript: typeof import('wxt/sandbox')['defineUnlistedScript']
   const defineWxtPlugin: typeof import('wxt/sandbox')['defineWxtPlugin']
   const fakeBrowser: typeof import('wxt/testing')['fakeBrowser']
+  const getAllAssignments: typeof import('/home/branden/Repos/asu-grade-calc/utils/getGrades')['getAllAssignments']
+  const getAverage: typeof import('/home/branden/Repos/asu-grade-calc/utils/getGrades')['getAverage']
+  const getGroups: typeof import('/home/branden/Repos/asu-grade-calc/utils/getGrades')['getGroups']
+  const getNonDroppedAssignments: typeof import('/home/branden/Repos/asu-grade-calc/utils/getGrades')['getNonDroppedAssignments']
   const injectScript: typeof import('wxt/client')['injectScript']
   const storage: typeof import('wxt/storage')['storage']
   const useAppConfig: typeof import('wxt/client')['useAppConfig']
@@ -26,4 +30,5 @@ declare global {
   const useReducer: typeof import('react')['useReducer']
   const useRef: typeof import('react')['useRef']
   const useState: typeof import('react')['useState']
+  const weightedAverageForGroup: typeof import('/home/branden/Repos/asu-grade-calc/utils/getGrades')['weightedAverageForGroup']
 }

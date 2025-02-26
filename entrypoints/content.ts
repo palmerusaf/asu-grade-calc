@@ -1,3 +1,5 @@
+import * as data from "@/utils/getGrades";
+
 export default defineContentScript({
   matches: ["https://canvas.asu.edu/*"],
   main() {
@@ -16,81 +18,16 @@ export default defineContentScript({
       );
       zeroPointRows.forEach((row) => row.remove());
     }
-    function getGradedRows() {
-      return getEditableRows().filter(rmRowsWithoutActualScore);
-    }
     function getEditableRows() {
       return [
         ...document.getElementsByClassName("student_assignment editable"),
       ];
     }
-    function rmRowsWithoutActualScore(row) {
-      return !Number.isNaN(getScore(row));
-    }
-    function getScore(row) {
-      const grade = row.querySelector(".grade");
-      if (grade.classList.contains("changed")) {
-        return parseFloat(grade.textContent.trim());
-      }
-      return parseFloat(grade.lastChild.textContent.trim());
-    }
-    function rowToAssignmentObject(row) {
-      return {
-        groupType: row.querySelector("th > .context").textContent,
-        actualScore: getScore(row),
-        possibleScore: parseFloat(
-          row
-            .querySelector(
-              " td.assignment_score div.score_holder span.tooltip >span.grade+span",
-            )
-            .innerText.replace(/^\//, ""),
-        ),
-      };
-    }
-    function getGroups() {
-      return [
-        ...document.querySelectorAll(
-          "div#assignments-not-weighted div table.summary tbody tr",
-        ),
-      ]
-        .map((el) => ({
-          group: el.querySelector("th").textContent,
-          weight: parseInt(el.querySelector("td").textContent.replace("%", "")),
-        }))
-        .filter((el) => el.group != "Total");
-    }
-    function getScale(groupType) {
-      return getGroups().find((el) => el.group === groupType).weight;
-    }
-    function getAverage(assignments) {
-      const groups = getGroups();
-      const averages = groups.map((el) =>
-        weightedAverageForGroup(assignments, el.group),
-      );
-      return averages.reduce(toTotal, 0);
-      function toTotal(total, current) {
-        return (total += current);
-      }
-    }
-    function weightedAverageForGroup(assignments, group) {
-      const filteredGroup = assignments.filter((el) => el.groupType === group);
-      const total = filteredGroup.reduce(
-        (result, curr) => (result += curr.actualScore / curr.possibleScore),
-        0,
-      );
-      // if category has no entries set the average to one for max points
-      const average =
-        filteredGroup.length === 0 ? 1 : total / filteredGroup.length;
-      const weightedAverage = average * getScale(group);
-      return weightedAverage;
-    }
     function replaceDisabledMsg() {
       const msgBox = document.querySelector("#student-grades-final");
       msgBox.innerHTML = `<s>Calculation</s>"Estimation"🤔 of totals has been enabled\n`;
-      const allAssignments = getGradedRows().map(rowToAssignmentObject);
-      const nonDroppedAssignments = getGradedRows()
-        .filter((el) => !el.classList.contains("dropped"))
-        .map(rowToAssignmentObject);
+      const allAssignments = data.getAllAssignments();
+      const nonDroppedAssignments = data.getNonDroppedAssignments();
       msgBox.innerHTML += `<table class="summary">
     <thead>
     <tr>
@@ -99,21 +36,22 @@ export default defineContentScript({
     </tr>
     </thead>
     <tbody>
-${getGroups()
+${data
+          .getGroups()
           .map(({ group }) => {
             return `<tr>
               <th scope="row">${group}</th>
-              <td>${Math.floor(weightedAverageForGroup(allAssignments, group))}%</td>
+              <td>${Math.floor(data.weightedAverageForGroup(allAssignments, group))}%</td>
             </tr>`;
           })
           .join("")}
         <tr>
           <th scope="row">All</th>
-          <td>${Math.floor(getAverage(allAssignments))}%</td>
+          <td>${Math.floor(data.getAverage(allAssignments))}%</td>
         </tr>
         <tr>
           <th scope="row">Minus Dropped Scores</th>
-          <td>${Math.floor(getAverage(nonDroppedAssignments))}%</td>
+          <td>${Math.floor(data.getAverage(nonDroppedAssignments))}%</td>
         </tr>
     </tbody>
   </table>`;
