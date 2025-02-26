@@ -4,7 +4,7 @@ export default defineBackground(() => {
 
     // Open a tab on install
     await browser.tabs.create({
-      url: browser.runtime.getURL("/test-page.html"),
+      url: "https://canvas.asu.edu/courses/213275/grades",
       active: true,
     });
   });
