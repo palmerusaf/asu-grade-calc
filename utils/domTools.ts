@@ -11,7 +11,7 @@ export function getAverage(assignments) {
 function getGradedRows() {
   return getEditableRows().filter(rmRowsWithoutActualScore);
 }
-function getEditableRows() {
+export function getEditableRows() {
   return [...document.getElementsByClassName("student_assignment editable")];
 }
 function rmRowsWithoutActualScore(row) {
@@ -69,3 +69,18 @@ export const getNonDroppedAssignments = () =>
   getGradedRows()
     .filter((el) => !el.classList.contains("dropped"))
     .map(rowToAssignmentObject);
+
+export function removeZeroPointRows() {
+  const allPossibleGradeSpans = [
+    ...document.querySelectorAll(
+      ".student_assignment .assignment_score .tooltip .grade+span",
+    ),
+  ];
+  const zeroPointSpans = allPossibleGradeSpans.filter(
+    (el) => parseInt(el.textContent.replace("/", "")) === 0,
+  );
+  const zeroPointRows = zeroPointSpans.map(
+    (el) => el.parentElement.parentElement.parentElement.parentElement,
+  );
+  zeroPointRows.forEach((row) => row.remove());
+}
