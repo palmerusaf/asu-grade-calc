@@ -3,17 +3,6 @@ import * as dom from "@/utils/domTools";
 export default defineContentScript({
   matches: ["https://canvas.asu.edu/*"],
   main() {
-    // Just nav the grades page hit f-12 and paste this into the dev console
-    function replaceDisabledMsg() {
-      const msgBox = document.querySelector("#student-grades-final");
-      msgBox.innerHTML = Table().innerHTML;
-    }
-    // recalc score when you click to edit score
-    function addChangeListeners() {
-      dom
-        .getEditableRows()
-        .forEach((row) => (row.onclick = replaceDisabledMsg));
-    }
     dom.removeZeroPointRows();
     addChangeListeners();
     replaceDisabledMsg();
@@ -53,4 +42,12 @@ ${groups
     </tbody>
   </table>`;
   return res;
+}
+function addChangeListeners() {
+  dom.getEditableRows().forEach((row) => (row.onclick = replaceDisabledMsg));
+}
+
+function replaceDisabledMsg() {
+  const msgBox = document.querySelector("#student-grades-final");
+  msgBox.innerHTML = Table().innerHTML;
 }
