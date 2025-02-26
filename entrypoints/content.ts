@@ -1,5 +1,5 @@
 export default defineContentScript({
-  matches: ["https://canvas.asu.edu/"],
+  matches: ["https://canvas.asu.edu/*"],
   main() {
     // Just nav the grades page hit f-12 and paste this into the dev console
     function removeZeroPointRows() {
