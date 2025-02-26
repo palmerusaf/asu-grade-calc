@@ -1,6 +1,6 @@
 {
-  "name": "wxt-react-starter",
-  "description": "manifest.json description",
+  "name": "asu-grades-estimator",
+  "description": "Some professors disable grade calculations in their courses because canvas doesn't always calculate grades correctly. This script tries to estimate what your current grade is and then replaces the calculation disable message.",
   "private": true,
   "version": "0.0.0",
   "type": "module",
