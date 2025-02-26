@@ -12,7 +12,7 @@
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox",
     "compile": "tsc --noEmit",
-    "publishExt": "pnpm build && pnpm zip && wxt publish-extension --chrome-zip ./.output/asu-grades-estimator-0.0.0-chrome.zip",
+    "submit": "pnpm zip &&wxt submit --chrome-zip .output/*chrome.zip",
     "postinstall": "wxt prepare"
   },
   "dependencies": {

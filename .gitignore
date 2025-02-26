@@ -3,3 +3,4 @@ node_modules
 entrypoints/test-page
 .wxt/chrome-data
 .env.submit*
+.output
