@@ -1,3 +1,4 @@
 node_modules
 .output/chrome-mv3
 entrypoints/test-page
+.wxt/chrome-data
