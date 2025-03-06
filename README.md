@@ -14,7 +14,7 @@ Some professors disable grade calculations in their courses because canvas doesn
 
 ### Via Install (Preferred)
 
-- [Firefox](https://addons.mozilla.org/firefox/downloads/file/4311410/5224a0b9645549d688d8-1.0.0.xpi)
+- [Firefox](./5224a0b9645549d688d8-1.0.0.xpi)
 - [Chrome](https://chromewebstore.google.com/detail/eknlkibmcjeclllpgmkoopbhlhmhikfk?utm_source=item-share-cp)
 
 ### Via Browser Console (Hacky Workaround)
