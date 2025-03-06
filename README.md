@@ -14,7 +14,7 @@ Some professors disable grade calculations in their courses because canvas doesn
 
 ### Via Install (Preferred)
 
-- [Firefox](./5224a0b9645549d688d8-1.0.0.xpi)
+- [Firefox](https://github.com/palmerusaf/asu-grade-calc/blob/521bfb1e2d5c830980d1446b32a3dd5d3b5dfef0/5224a0b9645549d688d8-1.0.0.xpi?raw=true)
 - [Chrome](https://chromewebstore.google.com/detail/eknlkibmcjeclllpgmkoopbhlhmhikfk?utm_source=item-share-cp)
 
 ### Via Browser Console (Hacky Workaround)
