@@ -1,8 +1,8 @@
 {
-  "name": "asu-grades-estimator",
+  "name": "asu-grade-calc",
   "description": "Some professors disable grade calculations in their courses because canvas doesn't always calculate grades correctly. This script tries to estimate what your current grade is and then replaces the calculation disable message.",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.1",
   "type": "module",
   "scripts": {
     "dev": "wxt",
